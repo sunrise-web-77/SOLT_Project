@@ -39,7 +39,7 @@ const Bubble = ({ bg, children }: { bg: string; children: React.ReactNode }) => 
 const navCards = [
   { label: "Play",        sub: "모임",     icon: <Bubble bg="linear-gradient(135deg,#EBF5FF,#C8E5FF)"><Users         size={28} color="#007AFF" strokeWidth={2} /></Bubble>, desc: "같은 믿음, 같은 관심사로 모이는 모임",    href: "/play" },
   { label: "Learn",       sub: "클래스",   icon: <Bubble bg="linear-gradient(135deg,#E8F9EE,#C3F0D4)"><GraduationCap size={28} color="#34C759" strokeWidth={2} /></Bubble>, desc: "신앙과 실력을 함께 키우는 클래스",          href: "/learn" },
-  { label: "Counseling",  sub: "상담",     icon: <Bubble bg="linear-gradient(135deg,#FFF0F5,#FFD6E7)"><Heart         size={28} color="#FF2D55" strokeWidth={2} /></Bubble>, desc: "마음과 진로, 믿음 안에서 회복합니다",      href: "/#counseling" },
+  { label: "Counseling",  sub: "상담",     icon: <Bubble bg="linear-gradient(135deg,#FFF0F5,#FFD6E7)"><Heart         size={28} color="#FF2D55" strokeWidth={2} /></Bubble>, desc: "마음과 진로, 믿음 안에서 회복합니다",      href: "/counseling" },
   // { label: "Shop", sub: "스토어", icon: <Bubble bg="linear-gradient(135deg,#FFF0EB,#FFD8C8)"><ShoppingBag size={28} color="#FF5C1A" strokeWidth={2} /></Bubble>, desc: "감각적인 크리스천 라이프스타일 굿즈", href: "/shop" },
   { label: "Action",      sub: "액션",     icon: <Bubble bg="linear-gradient(135deg,#FFF5E6,#FFE4B8)"><Flame         size={28} color="#FF9500" strokeWidth={2} /></Bubble>, desc: "후원·봉사·캠페인으로 세상을 바꿔요",      href: "/action" },
   { label: "Insight",     sub: "인사이트", icon: <Bubble bg="linear-gradient(135deg,#F0EFFF,#DCD9FF)"><Newspaper     size={28} color="#5856D6" strokeWidth={2} /></Bubble>, desc: "교계 트렌드와 선교지 이야기",              href: "/insight" },

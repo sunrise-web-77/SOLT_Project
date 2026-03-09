@@ -33,6 +33,7 @@ const CATEGORY_COLORS: Record<ActionCategory, string> = {
 };
 
 export default function ActionList() {
+  const [mainTab, setMainTab] = useState<"action" | "challenge">("action");
   const [activeTab, setActiveTab] = useState<ActionCategory | "all">("all");
   const [challengeTab, setChallengeTab] = useState<ChallengeCategory | "all">("all");
   const [joinToast, setJoinToast] = useState("");
@@ -98,6 +99,29 @@ export default function ActionList() {
           </div>
         </motion.div>
 
+        {/* ── Main Section Tabs ── */}
+        <div style={{ display: "flex", borderBottom: "2px solid #F2F4F7", marginBottom: "40px" }}>
+          {([
+            { key: "action" as const, label: "액션" },
+            { key: "challenge" as const, label: "신앙 챌린지" },
+          ]).map((tab) => (
+            <button key={tab.key} onClick={() => setMainTab(tab.key)} style={{
+              padding: "14px 28px", background: "none", border: "none", cursor: "pointer",
+              fontSize: "15px", fontWeight: 700, transition: "color 0.2s",
+              color: mainTab === tab.key ? "#0D2B4E" : "#94A3B8",
+              borderBottom: mainTab === tab.key ? "3px solid #FF5C1A" : "3px solid transparent",
+              marginBottom: "-2px",
+            }}>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+        <motion.div key={mainTab} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
+
+        {mainTab === "action" && (<>
         {/* Category Tabs */}
         <div style={{ display: "flex", gap: "8px", marginBottom: "32px", flexWrap: "wrap" }}>
           {ACTION_CATEGORIES.map((cat) => (
@@ -130,14 +154,10 @@ export default function ActionList() {
             );
           })}
         </div>
+        </>)}
 
-        {/* ════════════════════════════════════════════════
-            FAITH CHALLENGE SECTION
-        ════════════════════════════════════════════════ */}
-        <div style={{ height: "8px", backgroundColor: "#F2F4F7", margin: "72px -40px 0", borderRadius: "0" }} />
-
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          style={{ paddingTop: "72px" }}>
+        {mainTab === "challenge" && (<>
+        <div>
 
           {/* Section header */}
           <div style={{ marginBottom: "32px" }}>
@@ -304,7 +324,11 @@ export default function ActionList() {
               );
             })}
           </div>
+        </div>
+        </>)}
+
         </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

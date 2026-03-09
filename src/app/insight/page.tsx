@@ -200,6 +200,9 @@ const CAL_DAY: Record<string, number> = { 월: 0, 화: 1, 수: 2, 목: 3, 금: 4
 
 // ── Main component ─────────────────────────────────────────────
 export default function InsightList() {
+  // top-level section tabs
+  const [sectionTab, setSectionTab] = useState<"insight" | "events" | "mission">("insight");
+
   // magazine
   const [activeTab, setActiveTab] = useState<TabKey>("all");
 
@@ -347,6 +350,30 @@ export default function InsightList() {
           </p>
         </motion.div>
 
+        {/* ── Top-Level Section Tabs ── */}
+        <div style={{ display: "flex", borderBottom: "2px solid #F2F4F7", marginBottom: "40px" }}>
+          {([
+            { key: "insight" as const, label: "인사이트" },
+            { key: "events" as const, label: "공식 행사 일정" },
+            { key: "mission" as const, label: "글로벌 미션" },
+          ]).map((tab) => (
+            <button key={tab.key} onClick={() => setSectionTab(tab.key)} style={{
+              padding: "14px 28px", background: "none", border: "none", cursor: "pointer",
+              fontSize: "15px", fontWeight: 700, transition: "color 0.2s",
+              color: sectionTab === tab.key ? "#0D2B4E" : "#94A3B8",
+              borderBottom: sectionTab === tab.key ? "3px solid #0D2B4E" : "3px solid transparent",
+              marginBottom: "-2px", whiteSpace: "nowrap",
+            }}>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+        <motion.div key={sectionTab} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
+
+        {sectionTab === "insight" && (<>
         {/* ── Category Tabs ── */}
         <div style={{ display: "flex", gap: "8px", overflowX: "auto", paddingBottom: "16px", marginBottom: "40px", scrollbarWidth: "none" }}>
           {TABS.map((tab) => (
@@ -478,14 +505,10 @@ export default function InsightList() {
             )}
           </motion.div>
         </AnimatePresence>
+        </>)}
 
-        {/* ════════════════════════════════════════════════
-            GLOBAL MISSION SECTION
-        ════════════════════════════════════════════════ */}
-        <div style={{ height: "8px", backgroundColor: "#F2F4F7", margin: "72px -40px 0", borderRadius: "0" }} />
-
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-          style={{ paddingTop: "72px" }}>
+        {sectionTab === "mission" && (<>
+        <div>
 
           {/* Section header */}
           <div style={{ display: "flex", alignItems: "flex-end", gap: "16px", marginBottom: "32px" }}>
@@ -766,15 +789,11 @@ export default function InsightList() {
               )}
             </motion.div>
           </AnimatePresence>
-        </motion.div>
+        </div>
+        </>)}
 
-        {/* ════════════════════════════════════════════════
-            PUBLIC EVENTS SECTION
-        ════════════════════════════════════════════════ */}
-        <div style={{ height: "8px", backgroundColor: "#F2F4F7", margin: "72px -40px 0" }} />
-
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          style={{ paddingTop: "72px" }}>
+        {sectionTab === "events" && (<>
+        <div>
 
           {/* Section header */}
           <div style={{ marginBottom: "32px" }}>
@@ -892,7 +911,11 @@ export default function InsightList() {
               </div>
             </motion.div>
           </AnimatePresence>
+        </div>
+        </>)}
+
         </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
