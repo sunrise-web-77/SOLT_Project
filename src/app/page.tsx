@@ -73,9 +73,36 @@ const partnerChurches = [
 const pods = mockPosts.filter((p) => p.type === "play").slice(0, 4);
 const classes = mockPosts.filter((p) => p.type === "learn").slice(0, 4);
 
+const COUNSELORS = [
+  { id: "c1", emoji: "🧑‍⚕️", name: "이지은 상담사", tags: ["불안·우울", "관계 회복"], avail: "월·수·금", color: "#5856D6" },
+  { id: "c2", emoji: "👨‍⚕️", name: "박성민 상담사", tags: ["신앙 위기", "자존감"], avail: "화·목", color: "#5856D6" },
+  { id: "c3", emoji: "👩‍⚕️", name: "김혜린 상담사", tags: ["가족 갈등", "정체성"], avail: "월·금", color: "#5856D6" },
+];
+
+const COACHES = [
+  { id: "cc1", emoji: "🌿", name: "최다운 코치", tags: ["소명 발견", "진로 설계"], avail: "수·금", color: "#34C759" },
+  { id: "cc2", emoji: "✨", name: "정승현 코치", tags: ["직업 전환", "창업 준비"], avail: "화·목·토", color: "#34C759" },
+  { id: "cc3", emoji: "🕊️", name: "한아름 코치", tags: ["선교 훈련", "사역 방향"], avail: "월·화·수", color: "#34C759" },
+];
+
 export default function Home() {
   const [contact, setContact] = useState({ category: "도움 요청 문의", name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [counselText, setCounselText] = useState("");
+  const [counselSent, setCounselSent] = useState(false);
+  const [diagToast, setDiagToast] = useState("");
+
+  const handleCounsel = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!counselText.trim()) return;
+    setCounselSent(true);
+    setTimeout(() => { setCounselSent(false); setCounselText(""); }, 4000);
+  };
+
+  const handleDiag = (label: string) => {
+    setDiagToast(label);
+    setTimeout(() => setDiagToast(""), 2500);
+  };
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
@@ -312,49 +339,274 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════
-          SHOP CURATION (임시 비활성화)
+          COUNSELING
       ═══════════════════════════════════ */}
-      {/* SHOP_SECTION_START
-      <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 48px" }}>
-        <FadeUp>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px" }}>
-            <div>
-              <p style={{ fontSize: "11px", fontWeight: 700, color: "#FF5C1A", letterSpacing: "0.14em" }}>SOLT SHOP</p>
-              <h2 style={{ fontSize: "28px", fontWeight: 900, marginTop: "4px" }}>이번 주 큐레이션</h2>
-            </div>
-            <Link href="/shop" style={{ fontSize: "14px", fontWeight: 600, color: "#94A3B8", textDecoration: "none" }}>전체 보기 →</Link>
+      <section style={{ backgroundColor: "#FDFAF7", padding: "100px 0", position: "relative" }}>
+        {/* Diagnosis toast */}
+        {diagToast && (
+          <div style={{
+            position: "fixed", bottom: "40px", left: "50%", transform: "translateX(-50%)",
+            backgroundColor: "#0D2B4E", color: "#fff", padding: "12px 28px",
+            borderRadius: "100px", fontSize: "13px", fontWeight: 700, zIndex: 9999,
+            whiteSpace: "nowrap", boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+          }}>
+            {diagToast}
           </div>
-        </FadeUp>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "14px" }}>
-          {shopItems.map((item, i) => (
-            <FadeUp key={item.id} delay={i * 0.05}>
-              <Link href={`/shop/${item.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  style={{ borderRadius: "20px", overflow: "hidden", backgroundColor: "#fff", border: "1px solid #F2F4F7", cursor: "pointer", transition: "box-shadow 0.3s" }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}
-                >
-                  <div style={{ height: "130px", backgroundColor: "#F8FAFC", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "40px" }}>
-                    {item.emoji}
-                  </div>
-                  <div style={{ padding: "14px 16px 16px" }}>
-                    <p style={{ fontSize: "10px", color: "#94A3B8", fontWeight: 700 }}>{item.brand}</p>
-                    <p style={{ fontSize: "13px", fontWeight: 700, marginTop: "4px", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {item.title}
-                    </p>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
-                      <span style={{ fontSize: "14px", fontWeight: 900 }}>{item.price}</span>
-                      <span style={{ fontSize: "9px", fontWeight: 700, color: "#FF5C1A", backgroundColor: "#FFF5F0", padding: "2px 8px", borderRadius: "100px" }}>{item.tag}</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
+        )}
+
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 48px" }}>
+
+          {/* Header */}
+          <FadeUp>
+            <p style={{ fontSize: "11px", fontWeight: 700, color: "#FF9500", letterSpacing: "0.14em", marginBottom: "8px" }}>COUNSELING</p>
+            <h2 style={{ fontSize: "32px", fontWeight: 900, letterSpacing: "-0.03em", marginBottom: "6px" }}>SOLT 카운슬링</h2>
+            <p style={{ fontSize: "17px", color: "#64748B", fontStyle: "italic", marginBottom: "12px" }}>마음과 진로의 회복</p>
+            <p style={{ fontSize: "14px", color: "#94A3B8", lineHeight: 1.7, marginBottom: "52px", maxWidth: "520px" }}>
+              믿음 안에서 나를 돌아보는 시간.<br />기독 전문가와 함께라면 다시 일어설 수 있습니다.
+            </p>
+          </FadeUp>
+
+          {/* Expert matching cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px", marginBottom: "48px" }}>
+
+            {/* 기독 심리상담 전문가 */}
+            <FadeUp delay={0}>
+              <div>
+                <p style={{
+                  fontSize: "11px", fontWeight: 900, color: "#5856D6", letterSpacing: "0.1em",
+                  marginBottom: "16px", display: "flex", alignItems: "center", gap: "6px",
+                }}>
+                  🧠 기독 심리상담 전문가
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {COUNSELORS.map((c, i) => (
+                    <motion.div
+                      key={c.id}
+                      initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.08 }}
+                      whileHover={{ x: 4 }}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "14px",
+                        backgroundColor: "#fff", borderRadius: "16px",
+                        padding: "16px 20px", border: "1px solid #F0EEFF",
+                        cursor: "pointer", transition: "box-shadow 0.2s",
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 20px rgba(88,86,214,0.1)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}
+                    >
+                      <div style={{
+                        width: "44px", height: "44px", borderRadius: "14px", flexShrink: 0,
+                        background: "linear-gradient(135deg,#F0EEFF,#DCD9FF)",
+                        display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px",
+                      }}>
+                        {c.emoji}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontSize: "14px", fontWeight: 700, color: "#0D2B4E" }}>{c.name}</p>
+                        <div style={{ display: "flex", gap: "6px", marginTop: "5px", flexWrap: "wrap" }}>
+                          {c.tags.map((tag) => (
+                            <span key={tag} style={{
+                              fontSize: "10px", fontWeight: 700, color: "#5856D6",
+                              backgroundColor: "#F0EEFF", padding: "2px 8px", borderRadius: "100px",
+                            }}>{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right", flexShrink: 0 }}>
+                        <p style={{ fontSize: "10px", color: "#94A3B8", marginBottom: "6px" }}>{c.avail}</p>
+                        <span style={{
+                          fontSize: "11px", fontWeight: 700, color: "#5856D6",
+                          backgroundColor: "#F0EEFF", padding: "4px 12px", borderRadius: "100px",
+                        }}>
+                          신청하기
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </FadeUp>
-          ))}
+
+            {/* 청년 소명/진로 코치 */}
+            <FadeUp delay={0.1}>
+              <div>
+                <p style={{
+                  fontSize: "11px", fontWeight: 900, color: "#34C759", letterSpacing: "0.1em",
+                  marginBottom: "16px", display: "flex", alignItems: "center", gap: "6px",
+                }}>
+                  🌱 청년 소명 / 진로 코치
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {COACHES.map((c, i) => (
+                    <motion.div
+                      key={c.id}
+                      initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.08 }}
+                      whileHover={{ x: -4 }}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "14px",
+                        backgroundColor: "#fff", borderRadius: "16px",
+                        padding: "16px 20px", border: "1px solid #E8FFF0",
+                        cursor: "pointer", transition: "box-shadow 0.2s",
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 20px rgba(52,199,89,0.1)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}
+                    >
+                      <div style={{
+                        width: "44px", height: "44px", borderRadius: "14px", flexShrink: 0,
+                        background: "linear-gradient(135deg,#E8FFF0,#C3F0D4)",
+                        display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px",
+                      }}>
+                        {c.emoji}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontSize: "14px", fontWeight: 700, color: "#0D2B4E" }}>{c.name}</p>
+                        <div style={{ display: "flex", gap: "6px", marginTop: "5px", flexWrap: "wrap" }}>
+                          {c.tags.map((tag) => (
+                            <span key={tag} style={{
+                              fontSize: "10px", fontWeight: 700, color: "#34C759",
+                              backgroundColor: "#E8FFF0", padding: "2px 8px", borderRadius: "100px",
+                            }}>{tag}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right", flexShrink: 0 }}>
+                        <p style={{ fontSize: "10px", color: "#94A3B8", marginBottom: "6px" }}>{c.avail}</p>
+                        <span style={{
+                          fontSize: "11px", fontWeight: 700, color: "#34C759",
+                          backgroundColor: "#E8FFF0", padding: "4px 12px", borderRadius: "100px",
+                        }}>
+                          신청하기
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Self-diagnosis tools */}
+          <FadeUp delay={0.15}>
+            <p style={{ fontSize: "13px", fontWeight: 700, color: "#94A3B8", letterSpacing: "0.08em", marginBottom: "16px" }}>자아 진단 도구</p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "48px" }}>
+              <motion.button
+                whileHover={{ y: -6, boxShadow: "0 12px 40px rgba(255,149,0,0.15)" }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => handleDiag("☀️ 마음 날씨 체크 — 곧 오픈됩니다!")}
+                style={{
+                  backgroundColor: "#fff", borderRadius: "20px", padding: "28px 24px",
+                  border: "1px solid #FFE8C8", cursor: "pointer", textAlign: "left",
+                  boxShadow: "0 2px 12px rgba(255,149,0,0.06)", transition: "box-shadow 0.2s",
+                }}
+              >
+                <div style={{ fontSize: "32px", marginBottom: "12px" }}>☀️</div>
+                <p style={{ fontSize: "16px", fontWeight: 900, color: "#0D2B4E", marginBottom: "6px" }}>나의 마음 날씨 체크</p>
+                <p style={{ fontSize: "13px", color: "#94A3B8", lineHeight: 1.6 }}>
+                  지금 내 심리 상태는 어떤 날씨인가요?<br />5분 점검으로 나를 돌아봐요.
+                </p>
+                <span style={{
+                  display: "inline-block", marginTop: "16px",
+                  fontSize: "11px", fontWeight: 700, color: "#FF9500",
+                  backgroundColor: "#FFF5E6", padding: "4px 14px", borderRadius: "100px",
+                }}>
+                  지금 체크하기 →
+                </span>
+              </motion.button>
+
+              <motion.button
+                whileHover={{ y: -6, boxShadow: "0 12px 40px rgba(52,199,89,0.15)" }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => handleDiag("🌱 소명 리포트 — 곧 오픈됩니다!")}
+                style={{
+                  backgroundColor: "#fff", borderRadius: "20px", padding: "28px 24px",
+                  border: "1px solid #C3F0D4", cursor: "pointer", textAlign: "left",
+                  boxShadow: "0 2px 12px rgba(52,199,89,0.06)", transition: "box-shadow 0.2s",
+                }}
+              >
+                <div style={{ fontSize: "32px", marginBottom: "12px" }}>🌱</div>
+                <p style={{ fontSize: "16px", fontWeight: 900, color: "#0D2B4E", marginBottom: "6px" }}>소명 리포트</p>
+                <p style={{ fontSize: "13px", color: "#94A3B8", lineHeight: 1.6 }}>
+                  하나님이 나에게 주신 방향은?<br />진로 성향 테스트로 소명을 발견해요.
+                </p>
+                <span style={{
+                  display: "inline-block", marginTop: "16px",
+                  fontSize: "11px", fontWeight: 700, color: "#34C759",
+                  backgroundColor: "#E8FFF0", padding: "4px 14px", borderRadius: "100px",
+                }}>
+                  테스트 시작하기 →
+                </span>
+              </motion.button>
+            </div>
+          </FadeUp>
+
+          {/* Free-form counseling form */}
+          <FadeUp delay={0.2}>
+            <div style={{
+              backgroundColor: "#fff", borderRadius: "24px",
+              padding: "40px 44px", border: "1px solid #F2F4F7",
+              boxShadow: "0 2px 20px rgba(0,0,0,0.04)",
+            }}>
+              <h3 style={{ fontSize: "22px", fontWeight: 900, letterSpacing: "-0.02em", marginBottom: "6px" }}>
+                오늘 나의 고민은?
+              </h3>
+              <p style={{ fontSize: "14px", color: "#94A3B8", lineHeight: 1.7, marginBottom: "24px" }}>
+                무엇이든 편하게 적어주세요. 전문 상담사가 72시간 내 답변 드립니다.
+              </p>
+
+              {counselSent ? (
+                <div style={{ textAlign: "center", padding: "40px 0" }}>
+                  <div style={{ fontSize: "40px", marginBottom: "12px" }}>🙏</div>
+                  <p style={{ fontSize: "17px", fontWeight: 700, color: "#0D2B4E" }}>상담 신청이 접수됐습니다.</p>
+                  <p style={{ fontSize: "13px", color: "#94A3B8", marginTop: "6px" }}>72시간 내로 전문가가 연락드릴게요.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleCounsel} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <textarea
+                    value={counselText}
+                    onChange={(e) => setCounselText(e.target.value)}
+                    placeholder="지금 느끼는 감정, 고민, 진로에 대한 막막함 — 무엇이든 괜찮아요. 여기에 편하게 적어주세요."
+                    rows={6}
+                    required
+                    style={{
+                      width: "100%", padding: "18px 20px", borderRadius: "16px",
+                      border: "1px solid #F2F4F7", fontSize: "14px", lineHeight: 1.8,
+                      color: "#0D2B4E", resize: "vertical", outline: "none",
+                      backgroundColor: "#FDFAF7", fontFamily: inter,
+                      boxSizing: "border-box",
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "#FF9500"; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = "#F2F4F7"; }}
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <p style={{ fontSize: "12px", color: "#CBD5E1" }}>
+                      🔒 내용은 담당 상담사에게만 전달됩니다
+                    </p>
+                    <motion.button
+                      type="submit"
+                      whileHover={counselText.trim() ? { scale: 1.03 } : {}}
+                      whileTap={counselText.trim() ? { scale: 0.97 } : {}}
+                      disabled={!counselText.trim()}
+                      style={{
+                        padding: "14px 36px", borderRadius: "100px", border: "none",
+                        fontSize: "15px", fontWeight: 700,
+                        backgroundColor: counselText.trim() ? "#FF9500" : "#E2E8F0",
+                        color: counselText.trim() ? "#fff" : "#94A3B8",
+                        cursor: counselText.trim() ? "pointer" : "not-allowed",
+                        transition: "background-color 0.2s",
+                        boxShadow: counselText.trim() ? "0 4px 16px rgba(255,149,0,0.3)" : "none",
+                      }}
+                    >
+                      상담 신청하기
+                    </motion.button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </FadeUp>
+
         </div>
       </section>
-      SHOP_SECTION_END */}
 
       {/* ═══════════════════════════════════
           SOLT MATE
