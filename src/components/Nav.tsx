@@ -4,7 +4,7 @@ import { useState, useSyncExternalStore, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, X } from "lucide-react";
+import { Search, X, Heart } from "lucide-react";
 import { cartStore } from "@/lib/cartStore";
 import AuthModal from "@/components/AuthModal";
 import CartSidebar from "@/components/CartSidebar";
@@ -23,12 +23,12 @@ const Nav = () => {
     if (searchOpen) searchRef.current?.focus();
   }, [searchOpen]);
 
-  const links = [
+  const links: { href: string; label: string; match: string; icon?: React.ReactNode }[] = [
     { href: "/", label: "홈", match: "/" },
     { href: "/play", label: "모임 찾기", match: "/play" },
     { href: "/learn", label: "클래스", match: "/learn" },
     // { href: "/shop", label: "스토어", match: "/shop" }, // 임시 비활성화
-    { href: "/#counseling", label: "카운슬링", match: "/#counseling" },
+    { href: "/#counseling", label: "상담", match: "/#counseling", icon: <Heart size={13} strokeWidth={2.5} /> },
     { href: "/action", label: "액션", match: "/action" },
     { href: "/insight", label: "인사이트", match: "/insight" },
   ];
@@ -73,7 +73,9 @@ const Nav = () => {
               style={{
                 textDecoration: "none", transition: "color 0.2s",
                 color: isActive(link.match) ? "#0D2B4E" : "#CBD5E1",
+                display: "flex", alignItems: "center", gap: "4px",
               }}>
+              {link.icon && <span style={{ color: isActive(link.match) ? "#FF2D55" : "#FFAABB", display: "flex" }}>{link.icon}</span>}
               {link.label}
             </Link>
           ))}
