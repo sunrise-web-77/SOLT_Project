@@ -27,7 +27,8 @@ const Nav = () => {
     { href: "/", label: "홈", match: "/" },
     { href: "/play", label: "모임 찾기", match: "/play" },
     { href: "/learn", label: "클래스", match: "/learn" },
-    { href: "/shop", label: "스토어", match: "/shop" },
+    // { href: "/shop", label: "스토어", match: "/shop" }, // 임시 비활성화
+    { href: "/#counseling", label: "카운슬링", match: "/#counseling" },
     { href: "/action", label: "액션", match: "/action" },
     { href: "/insight", label: "인사이트", match: "/insight" },
   ];

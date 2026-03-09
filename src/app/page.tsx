@@ -341,7 +341,7 @@ export default function Home() {
       {/* ═══════════════════════════════════
           COUNSELING
       ═══════════════════════════════════ */}
-      <section style={{ backgroundColor: "#FDFAF7", padding: "100px 0", position: "relative" }}>
+      <section id="counseling" style={{ backgroundColor: "#FDFAF7", padding: "100px 0", position: "relative" }}>
         {/* Diagnosis toast */}
         {diagToast && (
           <div style={{
