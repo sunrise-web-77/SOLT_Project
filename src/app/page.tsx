@@ -312,8 +312,9 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════
-          SHOP CURATION
+          SHOP CURATION (임시 비활성화)
       ═══════════════════════════════════ */}
+      {/* SHOP_SECTION_START
       <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 48px" }}>
         <FadeUp>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px" }}>
@@ -353,6 +354,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      SHOP_SECTION_END */}
 
       {/* ═══════════════════════════════════
           SOLT MATE

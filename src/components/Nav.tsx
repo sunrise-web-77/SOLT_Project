@@ -108,6 +108,7 @@ const Nav = () => {
               </motion.button>
             )}
           </AnimatePresence>
+          {/* CART_BUTTON_START (임시 비활성화)
           <button
             onClick={() => setCartOpen(true)}
             style={{
@@ -129,6 +130,7 @@ const Nav = () => {
               </span>
             )}
           </button>
+          CART_BUTTON_END */}
           <button
             onClick={() => setAuthModal("login")}
             style={{
