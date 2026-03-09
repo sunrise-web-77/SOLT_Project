@@ -3,9 +3,9 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import { Users, GraduationCap, ShoppingBag, Flame, Newspaper } from "lucide-react";
+import { Users, GraduationCap, /* ShoppingBag, */ Flame, Newspaper } from "lucide-react";
 import Nav from "@/components/Nav";
-import { mockPosts, shopItems } from "@/lib/mockData";
+import { mockPosts, /* shopItems */ } from "@/lib/mockData";
 
 /* ── helpers ── */
 const inter = "'Inter', 'Noto Sans KR', sans-serif";
@@ -39,7 +39,7 @@ const Bubble = ({ bg, children }: { bg: string; children: React.ReactNode }) => 
 const navCards = [
   { label: "Play",    sub: "모임",     icon: <Bubble bg="linear-gradient(135deg,#EBF5FF,#C8E5FF)"><Users         size={28} color="#007AFF" strokeWidth={2} /></Bubble>, desc: "같은 믿음, 같은 관심사로 모이는 모임",    href: "/play" },
   { label: "Learn",   sub: "클래스",   icon: <Bubble bg="linear-gradient(135deg,#E8F9EE,#C3F0D4)"><GraduationCap size={28} color="#34C759" strokeWidth={2} /></Bubble>, desc: "신앙과 실력을 함께 키우는 클래스",          href: "/learn" },
-  { label: "Shop",    sub: "스토어",   icon: <Bubble bg="linear-gradient(135deg,#FFF0EB,#FFD8C8)"><ShoppingBag   size={28} color="#FF5C1A" strokeWidth={2} /></Bubble>, desc: "감각적인 크리스천 라이프스타일 굿즈",      href: "/shop" },
+  // { label: "Shop", sub: "스토어", icon: <Bubble bg="linear-gradient(135deg,#FFF0EB,#FFD8C8)"><ShoppingBag size={28} color="#FF5C1A" strokeWidth={2} /></Bubble>, desc: "감각적인 크리스천 라이프스타일 굿즈", href: "/shop" },
   { label: "Action",  sub: "액션",     icon: <Bubble bg="linear-gradient(135deg,#FFF5E6,#FFE4B8)"><Flame         size={28} color="#FF9500" strokeWidth={2} /></Bubble>, desc: "후원·봉사·캠페인으로 세상을 바꿔요",      href: "/action" },
   { label: "Insight", sub: "인사이트", icon: <Bubble bg="linear-gradient(135deg,#F0EFFF,#DCD9FF)"><Newspaper     size={28} color="#5856D6" strokeWidth={2} /></Bubble>, desc: "교계 트렌드와 선교지 이야기",              href: "/insight" },
 ];
@@ -585,7 +585,7 @@ export default function Home() {
               {[
                 { ko: "모임", en: "Play", href: "/play" },
                 { ko: "클래스", en: "Learn", href: "/learn" },
-                { ko: "스토어", en: "Shop", href: "/shop" },
+                // { ko: "스토어", en: "Shop", href: "/shop" },
                 { ko: "액션", en: "Action", href: "/action" },
                 { ko: "인사이트", en: null, href: "/insight" },
                 { ko: "SOLT Mate", en: null, href: "/play" },
