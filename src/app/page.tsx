@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Users, GraduationCap, /* ShoppingBag, */ Flame, Newspaper, MessageCircle, X } from "lucide-react";
 import Nav from "@/components/Nav";
 import { mockPosts, /* shopItems */ } from "@/lib/mockData";
@@ -90,34 +90,41 @@ export default function Home() {
       {/* ═══════════════════════════════════
           SOLT 서비스 소개 배너
       ═══════════════════════════════════ */}
-      {bannerVisible && (
-        <div style={{
-          backgroundColor: "#0D2B4E", color: "#ffffff",
-          padding: "12px 48px", display: "flex", justifyContent: "space-between",
-          alignItems: "center", gap: "16px",
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
-            <span style={{ fontSize: "16px" }}>✨</span>
-            <p style={{ fontSize: "13px", fontWeight: 600, margin: 0, lineHeight: 1.5 }}>
-              <span style={{ color: "#FF5C1A", fontWeight: 900 }}>SOLT</span>에 오신 것을 환영합니다!&nbsp;
-              Play · Learn · 상담 · Action · Insight — 크리스천 라이프스타일의 모든 것을 한 곳에서 경험하세요.
-            </p>
-          </div>
-          <button
-            onClick={() => setBannerVisible(false)}
+      <AnimatePresence>
+        {bannerVisible && (
+          <motion.div
+            initial={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
+            transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
             style={{
-              background: "none", border: "none", cursor: "pointer",
-              color: "rgba(255,255,255,0.6)", display: "flex", alignItems: "center",
-              padding: "4px", flexShrink: 0, transition: "color 0.2s",
+              backgroundColor: "#0D2B4E", color: "#ffffff", overflow: "hidden",
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              gap: "16px", padding: "12px 48px",
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#ffffff"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.6)"; }}
-            aria-label="배너 닫기"
           >
-            <X size={16} />
-          </button>
-        </div>
-      )}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
+              <span style={{ fontSize: "16px" }}>✨</span>
+              <p style={{ fontSize: "13px", fontWeight: 600, margin: 0, lineHeight: 1.5 }}>
+                <span style={{ color: "#FF5C1A", fontWeight: 900 }}>SOLT</span>
+                &nbsp;— 청년의 마음과 진로를 잇는 크리스천 라이프스타일 포털
+              </p>
+            </div>
+            <motion.button
+              onClick={() => setBannerVisible(false)}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              style={{
+                background: "none", border: "none", cursor: "pointer",
+                color: "rgba(255,255,255,0.6)", display: "flex", alignItems: "center",
+                padding: "4px", flexShrink: 0,
+              }}
+              aria-label="배너 닫기"
+            >
+              <X size={16} />
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Nav />
 
       {/* ═══════════════════════════════════
