@@ -354,7 +354,7 @@ export default function InsightList() {
         <div style={{ display: "flex", borderBottom: "2px solid #F2F4F7", marginBottom: "40px" }}>
           {([
             { key: "insight" as const, label: "인사이트" },
-            { key: "events" as const, label: "공식 행사 일정" },
+            { key: "events" as const, label: "공식 행사" },
             { key: "mission" as const, label: "글로벌 미션" },
           ]).map((tab) => (
             <button key={tab.key} onClick={() => setSectionTab(tab.key)} style={{

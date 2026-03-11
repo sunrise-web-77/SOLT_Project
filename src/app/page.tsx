@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import { Users, GraduationCap, /* ShoppingBag, */ Flame, Newspaper, Heart } from "lucide-react";
+import { Users, GraduationCap, /* ShoppingBag, */ Flame, Newspaper, MessageCircle, X } from "lucide-react";
 import Nav from "@/components/Nav";
 import { mockPosts, /* shopItems */ } from "@/lib/mockData";
 
@@ -39,7 +39,7 @@ const Bubble = ({ bg, children }: { bg: string; children: React.ReactNode }) => 
 const navCards = [
   { label: "Play",        sub: "모임",     icon: <Bubble bg="linear-gradient(135deg,#EBF5FF,#C8E5FF)"><Users         size={28} color="#007AFF" strokeWidth={2} /></Bubble>, desc: "같은 믿음, 같은 관심사로 모이는 모임",    href: "/play" },
   { label: "Learn",       sub: "클래스",   icon: <Bubble bg="linear-gradient(135deg,#E8F9EE,#C3F0D4)"><GraduationCap size={28} color="#34C759" strokeWidth={2} /></Bubble>, desc: "신앙과 실력을 함께 키우는 클래스",          href: "/learn" },
-  { label: "Counseling",  sub: "상담",     icon: <Bubble bg="linear-gradient(135deg,#FFF0F5,#FFD6E7)"><Heart         size={28} color="#FF2D55" strokeWidth={2} /></Bubble>, desc: "마음과 진로, 믿음 안에서 회복합니다",      href: "/counseling" },
+  { label: "Counseling",  sub: "상담",     icon: <Bubble bg="linear-gradient(135deg,#FFF0F5,#FFD6E7)"><MessageCircle size={28} color="#FF2D55" strokeWidth={2} /></Bubble>, desc: "마음과 진로, 믿음 안에서 회복합니다",      href: "/counseling" },
   // { label: "Shop", sub: "스토어", icon: <Bubble bg="linear-gradient(135deg,#FFF0EB,#FFD8C8)"><ShoppingBag size={28} color="#FF5C1A" strokeWidth={2} /></Bubble>, desc: "감각적인 크리스천 라이프스타일 굿즈", href: "/shop" },
   { label: "Action",      sub: "액션",     icon: <Bubble bg="linear-gradient(135deg,#FFF5E6,#FFE4B8)"><Flame         size={28} color="#FF9500" strokeWidth={2} /></Bubble>, desc: "후원·봉사·캠페인으로 세상을 바꿔요",      href: "/action" },
   { label: "Insight",     sub: "인사이트", icon: <Bubble bg="linear-gradient(135deg,#F0EFFF,#DCD9FF)"><Newspaper     size={28} color="#5856D6" strokeWidth={2} /></Bubble>, desc: "교계 트렌드와 선교지 이야기",              href: "/insight" },
@@ -75,6 +75,7 @@ const pods = mockPosts.filter((p) => p.type === "play").slice(0, 4);
 const classes = mockPosts.filter((p) => p.type === "learn").slice(0, 4);
 
 export default function Home() {
+  const [bannerVisible, setBannerVisible] = useState(true);
   const [contact, setContact] = useState({ category: "도움 요청 문의", name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
 
@@ -86,6 +87,37 @@ export default function Home() {
 
   return (
     <div style={{ backgroundColor: "#ffffff", minHeight: "100vh", color: "#0D2B4E", fontFamily: inter }}>
+      {/* ═══════════════════════════════════
+          SOLT 서비스 소개 배너
+      ═══════════════════════════════════ */}
+      {bannerVisible && (
+        <div style={{
+          backgroundColor: "#0D2B4E", color: "#ffffff",
+          padding: "12px 48px", display: "flex", justifyContent: "space-between",
+          alignItems: "center", gap: "16px",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}>
+            <span style={{ fontSize: "16px" }}>✨</span>
+            <p style={{ fontSize: "13px", fontWeight: 600, margin: 0, lineHeight: 1.5 }}>
+              <span style={{ color: "#FF5C1A", fontWeight: 900 }}>SOLT</span>에 오신 것을 환영합니다!&nbsp;
+              Play · Learn · 상담 · Action · Insight — 크리스천 라이프스타일의 모든 것을 한 곳에서 경험하세요.
+            </p>
+          </div>
+          <button
+            onClick={() => setBannerVisible(false)}
+            style={{
+              background: "none", border: "none", cursor: "pointer",
+              color: "rgba(255,255,255,0.6)", display: "flex", alignItems: "center",
+              padding: "4px", flexShrink: 0, transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#ffffff"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.6)"; }}
+            aria-label="배너 닫기"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
       <Nav />
 
       {/* ═══════════════════════════════════

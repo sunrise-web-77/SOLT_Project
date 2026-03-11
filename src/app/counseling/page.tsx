@@ -86,6 +86,8 @@ export default function CounselingPage() {
   const [currentQ, setCurrentQ] = useState(0);
 
   // Worry form state
+  const [applicantName, setApplicantName] = useState("");
+  const [applicantPhone, setApplicantPhone] = useState("");
   const [worryCat, setWorryCat] = useState("");
   const [worryTitle, setWorryTitle] = useState("");
   const [worryDetail, setWorryDetail] = useState("");
@@ -115,10 +117,11 @@ export default function CounselingPage() {
 
   const handleWorrySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!worryCat || !worryDetail.trim()) return;
+    if (!applicantName.trim() || !applicantPhone.trim() || !worryCat || !worryDetail.trim()) return;
     setWorrySent(true);
     setTimeout(() => {
       setWorrySent(false);
+      setApplicantName(""); setApplicantPhone("");
       setWorryCat(""); setWorryTitle(""); setWorryDetail(""); setContactValue("");
     }, 5000);
   };
@@ -480,6 +483,43 @@ export default function CounselingPage() {
               <motion.form key="form" onSubmit={handleWorrySubmit}
                 style={{ backgroundColor: "#fff", borderRadius: "24px", padding: "36px 40px", border: "1px solid #F2F4F7" }}
               >
+                {/* 성함 / 연락처 */}
+                <div style={{ marginBottom: "24px" }}>
+                  <p style={{ fontSize: "13px", fontWeight: 700, color: "#0D2B4E", marginBottom: "12px" }}>
+                    신청자 정보 <span style={{ color: "#FF2D55" }}>*</span>
+                  </p>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                    <input
+                      type="text"
+                      placeholder="성함"
+                      required
+                      value={applicantName}
+                      onChange={(e) => setApplicantName(e.target.value)}
+                      style={{
+                        padding: "14px 16px", borderRadius: "14px",
+                        border: "1px solid #F2F4F7", fontSize: "14px", outline: "none",
+                        backgroundColor: "#FAFAF8", color: "#0D2B4E", boxSizing: "border-box",
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "#34C759"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "#F2F4F7"; }}
+                    />
+                    <input
+                      type="tel"
+                      placeholder="연락처 (전화번호)"
+                      required
+                      value={applicantPhone}
+                      onChange={(e) => setApplicantPhone(e.target.value)}
+                      style={{
+                        padding: "14px 16px", borderRadius: "14px",
+                        border: "1px solid #F2F4F7", fontSize: "14px", outline: "none",
+                        backgroundColor: "#FAFAF8", color: "#0D2B4E", boxSizing: "border-box",
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "#34C759"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "#F2F4F7"; }}
+                    />
+                  </div>
+                </div>
+
                 {/* Category selector */}
                 <div style={{ marginBottom: "24px" }}>
                   <p style={{ fontSize: "13px", fontWeight: 700, color: "#0D2B4E", marginBottom: "12px" }}>
@@ -580,17 +620,17 @@ export default function CounselingPage() {
                   <p style={{ fontSize: "12px", color: "#CBD5E1" }}>🔒 작성 내용은 담당 전문가에게만 전달됩니다</p>
                   <motion.button
                     type="submit"
-                    whileHover={worryCat && worryDetail.trim() ? { scale: 1.03 } : {}}
-                    whileTap={worryCat && worryDetail.trim() ? { scale: 0.97 } : {}}
-                    disabled={!worryCat || !worryDetail.trim()}
+                    whileHover={applicantName.trim() && applicantPhone.trim() && worryCat && worryDetail.trim() ? { scale: 1.03 } : {}}
+                    whileTap={applicantName.trim() && applicantPhone.trim() && worryCat && worryDetail.trim() ? { scale: 0.97 } : {}}
+                    disabled={!applicantName.trim() || !applicantPhone.trim() || !worryCat || !worryDetail.trim()}
                     style={{
                       padding: "14px 36px", borderRadius: "100px", border: "none",
                       fontSize: "15px", fontWeight: 700,
-                      backgroundColor: worryCat && worryDetail.trim() ? "#34C759" : "#E2E8F0",
-                      color: worryCat && worryDetail.trim() ? "#fff" : "#94A3B8",
-                      cursor: worryCat && worryDetail.trim() ? "pointer" : "not-allowed",
+                      backgroundColor: applicantName.trim() && applicantPhone.trim() && worryCat && worryDetail.trim() ? "#34C759" : "#E2E8F0",
+                      color: applicantName.trim() && applicantPhone.trim() && worryCat && worryDetail.trim() ? "#fff" : "#94A3B8",
+                      cursor: applicantName.trim() && applicantPhone.trim() && worryCat && worryDetail.trim() ? "pointer" : "not-allowed",
                       transition: "background-color 0.2s",
-                      boxShadow: worryCat && worryDetail.trim() ? "0 4px 16px rgba(52,199,89,0.3)" : "none",
+                      boxShadow: applicantName.trim() && applicantPhone.trim() && worryCat && worryDetail.trim() ? "0 4px 16px rgba(52,199,89,0.3)" : "none",
                     }}
                   >
                     상담 신청하기
